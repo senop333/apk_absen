@@ -1,0 +1,12 @@
+<!--
+  Tambahkan baris ini ke android/app/src/main/AndroidManifest.xml
+  (di dalam tag <manifest>, sebelum <application>)
+-->
+
+<uses-permission android:name="android.permission.CAMERA" />
+<uses-feature android:name="android.hardware.camera" android:required="false" />
+
+<!--
+  Kalau web absen-nya juga butuh lokasi, tambahkan juga:
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+-->

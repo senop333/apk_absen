@@ -1,0 +1,6 @@
+<!--
+  Tambahkan ke ios/App/App/Info.plist, di dalam tag <dict> paling luar
+-->
+
+<key>NSCameraUsageDescription</key>
+<string>Aplikasi ini membutuhkan akses kamera untuk mengambil foto absensi.</string>

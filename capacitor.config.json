@@ -1,0 +1,15 @@
+{
+  "appId": "com.senop333.absen",
+  "appName": "Absen",
+  "webDir": "www",
+  "server": {
+    "url": "https://senop333.github.io/absen/",
+    "cleartext": false
+  },
+  "android": {
+    "allowMixedContent": false
+  },
+  "ios": {
+    "contentInset": "automatic"
+  }
+}
