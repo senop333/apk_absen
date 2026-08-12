@@ -1,0 +1,54 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout kode
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup Java (dibutuhkan Gradle)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Install dependency npm
+        run: npm install
+
+      - name: Generate project Android dari Capacitor
+        run: npx cap add android
+
+      - name: Tambah izin kamera ke AndroidManifest.xml
+        run: |
+          sed -i 's#<manifest xmlns:android="http://schemas.android.com/apk/res/android">#<manifest xmlns:android="http://schemas.android.com/apk/res/android">\n    <uses-permission android:name="android.permission.CAMERA" />\n    <uses-feature android:name="android.hardware.camera" android:required="false" />#' android/app/src/main/AndroidManifest.xml
+
+      - name: Pasang MainActivity.java dengan bridge izin kamera
+        run: |
+          mkdir -p android/app/src/main/java/com/senop333/absen
+          cp android-snippets/MainActivity.java android/app/src/main/java/com/senop333/absen/MainActivity.java
+
+      - name: Sinkronkan Capacitor
+        run: npx cap sync android
+
+      - name: Build APK (debug, siap install)
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Upload APK sebagai artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: absen-app-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
